@@ -18,7 +18,7 @@ sakai.search = function(){
     var myfriends = false;
 
     var doInit = function(){
-
+alert(window.location);
         meObj = sakai.data.me;
 
         loadContacts(1);
