@@ -23,11 +23,11 @@ sakai.config = {
         // Static URLs
         CONTENT_MEDIA_URL: "/dev/content_media.html",
         COURSES_SITES_URL: "/dev/courses_sites.html",
-        GATEWAY_URL: "/dev/index.html",
+        GATEWAY_URL: "/index",
         I10N_BUNDLE_URL: "/dev/lib/misc/l10n/globinfo/Globalization.__CODE__.min.js",
         I18N_BUNDLE_ROOT: "/dev/bundle/",
         LOGOUT_URL: "/dev/logout.html",
-        MY_DASHBOARD_URL: "/dev/my_sakai.html",
+        MY_DASHBOARD_URL: "/home",
         PEOPLE_URL: "/dev/people.html",
         PROFILE_EDIT_URL: "/dev/profile_edit.html",
         PUBLIC_CONTENT_MEDIA_URL: "/dev/public_content_media.html",
