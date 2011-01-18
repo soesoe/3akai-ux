@@ -416,7 +416,7 @@ sakai.topnavigation = function(tuid, showSettings){
         if (sakai.config.anonAllowed){
             $(exploreNavigationContainer).show();
 
-            var indexPaths = ["/dev", "/dev/index.html", "/dev/", "/", "/dev/404.html", "/dev/403.html"];
+            var indexPaths = ["/dev", "/dev/index.html", "/dev/", "/", "/dev/404.html", "/dev/403.html", "/index", "/404", "/403"];
             if (-1 !== $.inArray(window.location.pathname.replace(/\/$/,""), indexPaths)) {
                 $(".explore-bg").show();
             }

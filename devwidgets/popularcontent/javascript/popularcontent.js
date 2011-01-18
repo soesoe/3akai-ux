@@ -71,7 +71,7 @@ sakai.popularcontent = function(tuid, showSettings) {
                     content.push(item);
                 }
                 contentData.results[0] = {"content": content};
-                contentData.moreLink = "/dev/search_content.html#tag=/tags/directory/" + selected;
+                contentData.moreLink = "/search/content#tag=/tags/directory/" + selected;
                 callback();
             }
         });
