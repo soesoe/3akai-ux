@@ -169,7 +169,7 @@ sakai.addcontent = function(tuid, showSettings){
         $addcontent_container_show_box_profile.bind("click", function(){
 
             // Redirect the user to the profile page
-            document.location = "/dev/content_profile.html#content_path=" + json.url.replace(sakai.config.SakaiDomain, "/");
+            document.location = "/content#content_path=" + json.url.replace(sakai.config.SakaiDomain, "/");
 
         });
 
