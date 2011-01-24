@@ -73,6 +73,8 @@ sakai.recentmessages = function(tuid, showSettings){
             $recentmessagesContainer.html($.TemplateRenderer(recentmessagesTemplate, response));
 
             // make sure the newly added content is properly styled with
+            // -80 for the name besides the type
+            $(ellipsisContainer).css("width", $(ellipsisContainer).width()-80 + "px");
             // threedots truncation
             $(ellipsisContainer, rootel).ThreeDots({
                 max_rows: 1,
