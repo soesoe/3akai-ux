@@ -341,7 +341,7 @@ sakai.contentmetadata = function(tuid,showSettings){
             text_span_class: "ellipsis_text",
             e_span_class: "threedots_a",
             whole_word: false,
-            alt_text_t: true
+            alt_text_e: false
         });
     };
 
