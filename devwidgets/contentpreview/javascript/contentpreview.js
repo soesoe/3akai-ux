@@ -123,9 +123,6 @@ sakai.contentpreview = function(tuid,showSettings){
         $(".contentpreview_html_preview").show();
         $.TemplateRenderer("contentpreview_html_template", json, $("#contentpreview_html_preview"));
         $("#contentpreview_html_iframe").attr("src", sakai.content_profile.content_data.path);
-        $("#contentpreview_html_iframe").attr("width", "640px");
-        $("#contentpreview_html_iframe").attr("height", "390px");
-        $("#contentpreview_html_iframe").attr("frameborder", "0");
     };
 
     var renderVideoPlayer = function(){
