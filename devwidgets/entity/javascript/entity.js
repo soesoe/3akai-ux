@@ -462,24 +462,39 @@ sakai.entity = function(tuid, showSettings){
      * Check whether a user is already a contact, invited or pending
      * @param {String} userid    the user's userid
      */
-    var checkContact = function(userid){
+    var checkContact = function(userid) {
         // Do a batch request to get contacts, invited and pending
         var reqs = [
             {
-                "url" : sakai.config.URL.CONTACTS_FIND + "?state=ACCEPTED&page=0&items=100",
-                "method" : "GET"
+                url : sakai.config.URL.CONTACTS_FIND,
+                method : "GET",
+                parameters : {
+                    items: 100,
+                    page: 0,
+                    state: "ACCEPTED"
+                }
             },
             {
-                "url" : sakai.config.URL.CONTACTS_FIND + "?state=INVITED&page=0&items=100",
-                "method" : "GET"
+                url : sakai.config.URL.CONTACTS_FIND,
+                method : "GET",
+                parameters : {
+                    items: 100,
+                    page: 0,
+                    state: "INVITED"
+                }
             },
             {
-                "url" : sakai.config.URL.CONTACTS_FIND + "?state=PENDING&page=0&items=100",
-                "method" : "GET"
+                url : sakai.config.URL.CONTACTS_FIND,
+                method : "GET",
+                parameters : {
+                    items: 100,
+                    page: 0,
+                    state: "PENDING"
+                }
             },
             {
-                "url" : sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
-                "method" : "GET"
+                url : sakai.config.URL.PRESENCE_CONTACTS_SERVICE,
+                method : "GET"
             }
         ];
 
@@ -499,6 +514,7 @@ sakai.entity = function(tuid, showSettings){
         };
 
         $.ajax({
+            cache: false,
             url: "/system/batch",
             type: "POST",
             data: {
@@ -529,6 +545,12 @@ sakai.entity = function(tuid, showSettings){
                 var invited = $.parseJSON(data.results[1].body);
                 for (var j in invited.results){
                     if (invited.results[j].target === userid){
+                        // is this a request to automatically accept an invitation?
+                        var request = new Querystring();
+                        if (request.get("accept", "false") === "true") {
+                            // automatically accept the invitation
+                            acceptInvitation(userid);
+                        }
                         $("#entity_contact_invited").show();
                         return true;
                     }
@@ -549,7 +571,7 @@ sakai.entity = function(tuid, showSettings){
     /**
      * Accept a contact invitation
      */
-    var acceptInvitation = function(userid){
+    var acceptInvitation = function (userid) {
         $.ajax({
             url: "/~" + sakai.data.me.user.userid + "/contacts.accept.html",
             type: "POST",
@@ -557,6 +579,28 @@ sakai.entity = function(tuid, showSettings){
             success: function(data){
                 $("#entity_contact_invited").hide();
                 $("#entity_contact_accepted").show();
+                var notificationMsg = sakai.api.i18n.General.getValueForKey(
+                    "YOU_HAVE_ACCEPTED_CONTACT_INVITATION").replace(
+                    /\$\{displayName\}/gi, sakai.api.User.getDisplayName(
+                        entityconfig.data.profile
+                    )
+                );
+                sakai.api.Util.notification.show(
+                    sakai.api.i18n.General.getValueForKey("MY_CONTACTS"),
+                    notificationMsg
+                );
+            },
+            error: function (data) {
+                var notificationMsg = sakai.api.i18n.General.getValueForKey(
+                    "THERE_WAS_AN_ERROR_ACCEPTING_CONTACT").replace(
+                    /\$\{displayName\}/gi, sakai.api.User.getDisplayName(
+                        entityconfig.data.profile
+                    )
+                );
+                sakai.api.Util.notification.show(
+                    sakai.api.i18n.General.getValueForKey("MY_CONTACTS"),
+                    notificationMsg
+                );
             }
         });
     };
@@ -924,11 +968,16 @@ sakai.entity = function(tuid, showSettings){
      * Set the profile group data such as the users role, member count and profile picture
      */
     var setGroupData = function(){
+        // determine users role and get the count of members and managers
+        getGroupMembersManagers();
+
         // Set the profile picture for the group you are looking at
         entityconfig.data.profile.picture = constructProfilePicture(entityconfig.data.profile);
 
-        // determine users role and get the count of members and managers
-        getGroupMembersManagers();
+        // if the user is a manager we want to make sure the image is not cached if they change it and the entity widget rerenders
+        if (entityconfig.data.profile.picture && entityconfig.data.profile["role"] === "manager") {
+            entityconfig.data.profile.picture = entityconfig.data.profile.picture + "?sid=" + Math.random();
+        }
 
         // configure the changepic widget to look at the group profile image
         if (sakai.api.UI.changepic){
