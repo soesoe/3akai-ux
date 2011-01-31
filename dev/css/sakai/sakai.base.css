@@ -166,16 +166,40 @@ a.s3d-regular-links, .s3d-regular-links a{
  * WIDGET LAYOUT
  */
 .s3d-widget-titlebar {
-    background:transparent url(/dev/images/block_tr.png) no-repeat scroll right top; 
-    padding: 0 10px 0 0; 
-    height:50px;
-}
-.s3d-widget-titlebar-inner {
-    background:transparent url(/dev/images/block_tl.png) no-repeat scroll left top; 
-    padding: 0px 0 0 5px; 
-    height:50px;
+    background-image:url(/dev/images/block_tr.png);
+    background-position: right top; 
+    background-repeat: no-repeat;
+    background-color:#FAFAFA;
+    padding: 0; 
 }
 
+.s3d-widget-titlebar-border-top {
+    padding:0 5px 0 0;
+    height:5px;
+}
+
+.s3d-widget-titlebar-border-top-inner {
+    background:url("/dev/images/block_tl.png") no-repeat scroll left top transparent;
+    height:5px;
+}
+
+.s3d-widget-titlebar-footer {
+    background:url("/dev/images/block_trf.png") no-repeat scroll right top transparent;
+    height:13px;
+    padding:0 10px 0 0;
+}
+
+.s3d-widget-titlebar-footer-inner {
+    background:url("/dev/images/block_tlf.png") no-repeat scroll left top transparent;
+    height:20px;
+}
+
+.s3d-widget-titlebar-inner {
+    border-left:3px solid #D4DADE;
+    border-right:3px solid #D4DADE;
+    padding:0;
+    overflow:hidden;
+}
 .s3d-widget .s3d-widget-content, .s3d-content {
     padding: 10px 0 10px 0; 
     margin: 0 !important; 
