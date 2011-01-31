@@ -388,26 +388,28 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
             }
         };
 
-    /**
-     * Remove a chat window and its corresponding button in the
-     * bottom bar
-     * @param {Object} userid    Userid of the user for which
-     * we want to remove the chat window
-     */
-    var removeChatWindow = function(uid){
-        var toremoveIndex = -1;
-        userid = escapeCharacters(uid);
-        for (var i = 0; i < globalChatWindows.length; i++){
-            if (globalChatWindows[i].profile.userid === uid){
-                $("#chat_online_button_" + userid).remove();
-                $("#chat_with_" + userid).remove();
-                toremoveIndex = i;
-            } else if (toremoveIndex >= 0){
-                $("#chat_with_" + globalChatWindows[i].profile.userid).css("left", (150 * (i - 1)) + "px");
+        /**
+         * Remove a chat window and its corresponding button in the
+         * bottom bar
+         * @param {Object} userid    Userid of the user for which
+         * we want to remove the chat window
+         */
+        var removeChatWindow = function(uid){
+            var toremoveIndex = -1;
+            userid = escapeCharacters(uid);
+            for (var i = 0; i < globalChatWindows.length; i++) {
+                if (globalChatWindows[i].profile.userid === uid) {
+                    $("#chat_online_button_" + userid).remove();
+                    $("#chat_with_" + userid).remove();
+                    toremoveIndex = i;
+                }
+                else 
+                    if (toremoveIndex >= 0) {
+                        $("#chat_with_" + globalChatWindows[i].profile.userid).css("left", (150 * (i - 1)) + "px");
+                    }
+                globalChatWindows.splice(toremoveIndex, 1);
             }
-            globalChatWindows.splice(toremoveIndex, 1);
         };
-
         /**
          *  Check if user is still in contact list
          * @param {Object} userId  User id of the contact the icon should be adjusted for
