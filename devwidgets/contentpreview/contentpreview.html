@@ -17,7 +17,7 @@
                         <span class="s3d-button-inner">Download</span>
                     </a>
                 {/if}
-                {if sakai.content_profile.content_data.isManager}
+                {if sakai_global.content_profile.content_data.isManager}
                     <div id="contentpreview_actions_container">
                         <button type="submit" class="s3d-button s3d-button-secondary" id="content_preview_delete">
                             <span class="s3d-button-inner">Delete</span>
@@ -32,7 +32,7 @@
             {if sakai.config.MimeTypes[sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]]}
             	<img id="entity_profile_picture" src="${sakai.config.MimeTypes[sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]].URL}" alt="${sakai.config.MimeTypes[sakai.content_profile.content_data.data["jcr:content"]["jcr:mimeType"]].description}"/>
             {else}
-            	<img id="entity_profile_picture" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}"/>
+              <img id="entity_profile_picture" src="${sakai.config.MimeTypes["other"].URL}" alt="${sakai.config.MimeTypes["other"].description}"/>
             {/if}
             </div>
             <div id="contentpreivew_default_preivew_data">
