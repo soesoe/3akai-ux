@@ -27,7 +27,7 @@
                     <li>__MSG__NO_CONTENT_FOUND__</li>
                 {/for}
             {/for}</ul>{/if}
-            {if 5 < data.total || data.total < 0}
+            {if 5 < Math.abs(data.total)}
                 <div class="fl-text-align-right">
                     <a href="/search/content#q=*" class="s3d-action s3d-action-seeall">__MSG__SEE_ALL__</a>
                 </div>

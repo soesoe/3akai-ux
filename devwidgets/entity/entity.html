@@ -40,6 +40,7 @@
                     <button type="submit" class="s3d-button s3d-button-primary"><span class="s3d-button-inner">__MSG__UPDATE__</span></button>
                     <span id="entity_profile_status_input_saving" style="display:none;">__MSG__SAVING__...</span>
                     <span id="entity_profile_status_title" style="display:none;">__MSG__STATUS_CHANGED__</span>
+                    <span id="entity_profile_status_body" style="display:none;">__MSG__STATUS_CHANGED_SUCCESSFULLY__</span>
                     <span id="entity_profile_status_input_saving_failed" style="display:none;">__MSG__SAVING_FAILED__</span>
                 </div>
             </form>
@@ -70,6 +71,7 @@
                         __MSG__TAG__
                     {/if}
                     </span>
+                    <span id="entity_tags_dropdown_arrow"></span>
                 </div>
                 </a>
             </div>
@@ -127,6 +129,7 @@
                             __MSG__TAG__
                         {/if}
                         </span>
+                        <span id="entity_tags_dropdown_arrow"></span>
                     </div>
                 </a>
             </div>
@@ -139,7 +142,7 @@
         {if mode === "content"}
             {if data.profile}
                 <div class="fl-force-left entity_content_header">
-                    <span id="contentmetadata_name_name" class="entity_content_header_text {if sakai.content_profile.content_data.isManager} contentmetadata_editable {/if}">
+                    <span id="contentmetadata_name_name" class="entity_content_header_text {if sakai_global.content_profile.content_data.isManager} contentmetadata_editable {/if}">
                         ${data.profile.name}
                     </span>
                     <span id="contentmetadata_name_edit" style="display:none">
@@ -163,13 +166,14 @@
                     </div>
                     <div class="fl-force-left entity_content_used_by">
                         <p class="entity_usedby">__MSG__USED_BY__
-                            <a href="#" class="entity_content_places s3d-regular-light-links s3d-bold">
-                                ${data.profile.groupcount}
-                                {if data.profile.groupcount === 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a>
-                            __MSG__AND__
                             <a href="#" class="entity_content_people s3d-regular-light-links s3d-bold">
                                 ${data.profile.usercount}
-                                {if data.profile.usercount === 1}
+                                {if data.profile.usercount === 1}__MSG__PERSON__{else}__MSG__PEOPLE__{/if}</a>
+                            __MSG__AND__
+                            <a href="#" class="entity_content_group s3d-regular-light-links s3d-bold">
+                                
+                                ${data.profile.groupcount}
+                                {if data.profile.groupcount === 1}
                                     __MSG__GROUP__
                                 {else}
                                     __MSG__GROUPS__
@@ -186,8 +190,8 @@
                                 __MSG__VISIBLE_TO_ANYONE_LOGGED_IN__
                             {elseif data.profile.permissions === "private"}
                                 __MSG__PRIVATE__
-                                {if sakai.content_profile.content_data.members.managers}
-                                    __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai.content_profile.content_data.members.managers[0]))}
+                                {if sakai_global.content_profile.content_data.members.managers}
+                                    __MSG__TO__ ${unescape(sakai.api.User.getDisplayName(sakai_global.content_profile.content_data.members.managers[0]))}
                                     {if data.profile.usercount + data.profile.groupcount > 1}
                                         + ${data.profile.usercount + data.profile.groupcount - 1}
                                         {if (data.profile.usercount + data.profile.groupcount) === 2}
@@ -262,7 +266,7 @@
                     <a class="s3d-action entity_group_edit" href="/group/edit?id=${data.profile["sakai:group-id"]}">__MSG__MANAGE_GROUP__</a>
                 {/if}
             {/if}
-            {if sakai.profile.main.mode.value === "edit"}
+            {if sakai_global.profile.main.mode.value === "edit"}
                 <a class="s3d-action" href="/~${data.profile["sakai:group-id"]}">__MSG__GROUP_PAGES__</a>
             {/if}
         </div>
@@ -297,6 +301,7 @@
                             __MSG__TAG__
                         {/if}
                         </span>
+                        <span id="entity_tags_dropdown_arrow"></span>
                     </div>
                 </a>
             </div>
