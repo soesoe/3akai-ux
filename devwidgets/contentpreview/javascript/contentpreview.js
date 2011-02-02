@@ -38,52 +38,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
      * @param {String} tuid Unique id of the widget
      * @param {Boolean} showSettings Show the settings of the widget or not
      */
-
-    //TODO: Clean this mess up
-    var renderImagePreview = function(contentURL){
-        $(".contentpreview_image_preview").show();
-        var json = {};
-        json.contentURL = contentURL || sakai.content_profile.content_data.path;
-        $.TemplateRenderer("contentpreview_image_template", json, $("#contentpreview_image_calculatesize"));
-        $("#contentpreview_image_rendered").bind('load', function(ev){
-            var width = $("#contentpreview_image_rendered").width();
-            var height = $("#contentpreview_image_rendered").height();
-            if (width >= 640 && height / width * 640 > 390){
-                $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_width");
-                $("#contentpreview_image_rendered").addClass("contentpreview_noborder");
-                $("#contentpreview_image_preview").addClass("contentpreview_other_preview");
-                $("#contentpreview_image_preview").addClass("contentpreview_overflowhidden");
-                $("#contentpreview_image_rendered").css("margin-top", - ((height / width * 640) - 390) / 2 + "px");
-            } else if (width > 640 && height / width * 640 <= 390){
-                $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_width");
-            } else if (height > 390 && width / height * 390 <= 640){
-                $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_height");
-            }
-            $("#contentpreview_image_preview").append($("#contentpreview_image_rendered"));
-        });
-    };
-
-    var renderTextPreview = function(){
-        if (sakai.content_profile.content_data.data["jcr:content"][":jcr:data"] > 1500000){
-            renderDefaultPreview();
-            return;
-        }
-        $(".contentpreview_text_preview").show();
-        $.ajax({
-           url: sakai.content_profile.content_data.path,
-           type: "GET",
-           success: function(data){
-               $(".contentpreview_text_preview").html(data.replace(/\n/g, "<br/>"));
-           }
-        });
-    };
-
-    var renderHTMLPreview = function(){
-        $(".contentpreview_html_preview").show();
-        $.TemplateRenderer("contentpreview_html_template", json, $("#contentpreview_html_preview"));
-        $("#contentpreview_html_iframe").attr("src", sakai.content_profile.content_data.path);
-    };
-
     sakai_global.contentpreview = function(tuid,showSettings){
 
         var obj = {};
@@ -123,14 +77,6 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
         //TODO: Clean this mess up
         var renderImagePreview = function(contentURL){
             $(".contentpreview_image_preview").show();
-            $("#contentpreview_image_rendered").css("width", "");
-            $("#contentpreview_image_rendered").css("height", "");
-            $("#contentpreview_image_rendered").css("border", "");
-            $("#contentpreview_image_preview").css("width", "");
-            $("#contentpreview_image_preview").css("height", "");
-            $("#contentpreview_image_preview").css("border", "");
-            $("#contentpreview_image_preview").css("overflow", "");
-            $("#contentpreview_image_rendered").css("margin-top", "");
             var json = {};
             json.contentURL = contentURL || sakai_global.content_profile.content_data.path;
             json.sakai = sakai;
@@ -139,17 +85,15 @@ require(["jquery", "sakai/sakai.api.core"], function($, sakai) {
                 var width = $("#contentpreview_image_rendered").width();
                 var height = $("#contentpreview_image_rendered").height();
                 if (width >= 640 && height / width * 640 > 390){
-                    $("#contentpreview_image_rendered").css("width", "640px");
-                    $("#contentpreview_image_rendered").css("border", "none");
-                    $("#contentpreview_image_preview").css("height", "390px");
-                    $("#contentpreview_image_preview").css("width", "640px");
-                    $("#contentpreview_image_preview").css("border", "1px solid #D4DADE");
-                    $("#contentpreview_image_preview").css("overflow", "hidden");
+                    $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_width");
+                    $("#contentpreview_image_rendered").addClass("contentpreview_noborder");
+                    $("#contentpreview_image_preview").addClass("contentpreview_other_preview");
+                    $("#contentpreview_image_preview").addClass("contentpreview_overflowhidden");
                     $("#contentpreview_image_rendered").css("margin-top", - ((height / width * 640) - 390) / 2 + "px");
                 } else if (width > 640 && height / width * 640 <= 390){
-                    $("#contentpreview_image_rendered").css("width", "640px");
+                    $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_width");
                 } else if (height > 390 && width / height * 390 <= 640){
-                    $("#contentpreview_image_rendered").css("height", "390px");
+                    $("#contentpreview_image_rendered").addClass("contentpreview_image_preview_height");
                 }
                 $("#contentpreview_image_preview").append($("#contentpreview_image_rendered"));
             });
